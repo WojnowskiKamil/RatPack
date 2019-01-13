@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Znajdz tani i bezpieczny transport</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body background="~/Image/Wall.jpg" style="text-align: center" width=100% height="100%">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("WYŚLIJ PACZKĘ", "Create", "Packages", new { area = "" }, new { @class = "navbar-brand" })
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Kierowca"))
+                    {
+                        @Html.ActionLink("OGŁOSZENIA", "Index2", "Packages", new { area = "" }, new { @class = "navbar-brand" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("OGŁOSZENIA", "Index", "Packages", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("MOJE OGŁOSZENIA", "MyAccount", "Packages", new { area = "" }, new { @class = "navbar-brand" })
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("OGŁOSZENIA", "Index", "Packages", new { area = "" }, new { @class = "navbar-brand" })
+                }
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Wyloguj", "Logout", "Account")</li>
+                        if (User.IsInRole("Kierowca"))
+                        {
+                            <li>@Html.ActionLink("Twoje Samochody", "Index", "Truck")</li>
+                        }
+                        <li class="navbar-brand" align="right">@User.Identity.Name</li>
+
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Zaloguj", "Login", "Account")</li>
+                        <li>@Html.ActionLink("Zarejestruj", "Register", "Account")</li>
+                        <li>@Html.ActionLink("Pomoc", "Contact", "Home")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content" />">
+    @RenderBody()
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Znajdz tani i bezpieczny transport</p>
+    </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
